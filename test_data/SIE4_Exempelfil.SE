@@ -1,0 +1,1824 @@
+#FLAGGA 1
+#FORMAT PC8
+#SIETYP 4
+#PROGRAM "Fortnox" 2021
+#GEN 20211231 Admin
+#FNAMN "™vningsbolaget AB"
+#FNR "123"
+#ORGNR 555555-5555
+#ADRESS "Admin" "Storgatan 1" "12345 Stockholm" "08-123 456"
+#RAR 0 20210101 20211231
+#RAR -1 20200101 20201231
+#TAXAR 2021
+#VALUTA SEK
+#KPTYP BAS2021
+
+#KONTO 1910 Kassa
+#KTYP 1910 T
+#SRU 1910 7200
+#KONTO 1920 PlusGiro
+#KTYP 1920 T
+#KONTO 1930 Checkr„kningskonto
+#KTYP 1930 T
+#SRU 1930 7200
+#KONTO 2440 Leverant”rsskulder
+#KTYP 2440 S
+#KONTO 2641 "Ing†ende moms 25%"
+#KTYP 2641 S
+#SRU 2641 7369
+#KONTO 3041 "F”rs„ljning tj„nster"
+#KTYP 3041 I
+#KONTO 6410 F”rbrukningsinventarier
+#KTYP 6410 K
+#KONTO 7010 L”ner
+#KTYP 7010 K
+
+#DIM 1 "Resultatenhet"
+#DIM 6 "Projekt"
+
+#OBJEKT 1 Nord "Nordregion"
+#OBJEKT 1 Syd "Sydregion"
+#OBJEKT 6 0001 "Projekt Alpha"
+#OBJEKT 6 0002 "Projekt Beta"
+
+#IB 0 1930 938311.64
+#UB 0 1930 746686.19
+#RES 0 1930 0.00
+#IB 0 1910 5000.00
+#UB 0 1910 3500.00
+#IB 0 2641 -15000.00
+#UB 0 2641 -12000.00
+#IB -1 1930 850000.00
+#UB -1 1930 938311.64
+
+#VER A 1 20210105 "Kaffebr”d"
+{
+   #TRANS 6410 {1 Nord 6 0001} 2000
+   #TRANS 2641 {} 500
+   #TRANS 1910 {} -2500
+}
+
+#VER A 2 20210106 "Transaktion 2"
+{
+   #TRANS 3041 {} -10274
+   #TRANS 1920 {} 10274
+}
+
+#VER A 3 20210107 "Transaktion 3"
+{
+   #TRANS 3041 {} -10411
+   #TRANS 1920 {} 10411
+}
+
+#VER A 4 20210108 "Transaktion 4"
+{
+   #TRANS 3041 {} -10548
+   #TRANS 1920 {} 10548
+}
+
+#VER A 5 20210109 "Transaktion 5"
+{
+   #TRANS 3041 {} -10685
+   #TRANS 1920 {} 10685
+}
+
+#VER A 6 20210110 "Transaktion 6"
+{
+   #TRANS 3041 {} -10822
+   #TRANS 1920 {} 10822
+}
+
+#VER A 7 20210111 "Transaktion 7"
+{
+   #TRANS 3041 {} -10959
+   #TRANS 1920 {} 10959
+}
+
+#VER A 8 20210112 "Transaktion 8"
+{
+   #TRANS 3041 {} -11096
+   #TRANS 1920 {} 11096
+}
+
+#VER A 9 20210113 "Transaktion 9"
+{
+   #TRANS 3041 {} -11233
+   #TRANS 1920 {} 11233
+}
+
+#VER A 10 20210114 "Transaktion 10"
+{
+   #TRANS 3041 {} -11370
+   #TRANS 1920 {} 11370
+}
+
+#VER A 11 20210115 "Transaktion 11"
+{
+   #TRANS 3041 {} -11507
+   #TRANS 1920 {} 11507
+}
+
+#VER A 12 20210116 "Transaktion 12"
+{
+   #TRANS 3041 {} -11644
+   #TRANS 1920 {} 11644
+}
+
+#VER A 13 20210117 "Transaktion 13"
+{
+   #TRANS 3041 {} -11781
+   #TRANS 1920 {} 11781
+}
+
+#VER A 14 20210118 "Transaktion 14"
+{
+   #TRANS 3041 {} -11918
+   #TRANS 1920 {} 11918
+}
+
+#VER A 15 20210119 "Transaktion 15"
+{
+   #TRANS 3041 {} -12055
+   #TRANS 1920 {} 12055
+}
+
+#VER A 16 20210120 "Transaktion 16"
+{
+   #TRANS 3041 {} -12192
+   #TRANS 1920 {} 12192
+}
+
+#VER A 17 20210121 "Transaktion 17"
+{
+   #TRANS 3041 {} -12329
+   #TRANS 1920 {} 12329
+}
+
+#VER A 18 20210122 "Transaktion 18"
+{
+   #TRANS 3041 {} -12466
+   #TRANS 1920 {} 12466
+}
+
+#VER A 19 20210123 "Transaktion 19"
+{
+   #TRANS 3041 {} -12603
+   #TRANS 1920 {} 12603
+}
+
+#VER A 20 20210124 "Transaktion 20"
+{
+   #TRANS 3041 {} -12740
+   #TRANS 1920 {} 12740
+}
+
+#VER A 21 20210125 "Transaktion 21"
+{
+   #TRANS 3041 {} -12877
+   #TRANS 1920 {} 12877
+}
+
+#VER A 22 20210126 "Transaktion 22"
+{
+   #TRANS 3041 {} -13014
+   #TRANS 1920 {} 13014
+}
+
+#VER A 23 20210127 "Transaktion 23"
+{
+   #TRANS 3041 {} -13151
+   #TRANS 1920 {} 13151
+}
+
+#VER A 24 20210128 "Transaktion 24"
+{
+   #TRANS 3041 {} -13288
+   #TRANS 1920 {} 13288
+}
+
+#VER A 25 20210129 "Transaktion 25"
+{
+   #TRANS 3041 {} -13425
+   #TRANS 1920 {} 13425
+}
+
+#VER A 26 20210130 "Transaktion 26"
+{
+   #TRANS 3041 {} -13562
+   #TRANS 1920 {} 13562
+}
+
+#VER A 27 20210131 "Transaktion 27"
+{
+   #TRANS 3041 {} -13699
+   #TRANS 1920 {} 13699
+}
+
+#VER A 28 20210201 "Transaktion 28"
+{
+   #TRANS 3041 {} -13836
+   #TRANS 1920 {} 13836
+}
+
+#VER A 29 20210202 "Transaktion 29"
+{
+   #TRANS 3041 {} -13973
+   #TRANS 1920 {} 13973
+}
+
+#VER A 30 20210203 "Transaktion 30"
+{
+   #TRANS 3041 {} -14110
+   #TRANS 1920 {} 14110
+}
+
+#VER A 31 20210204 "Transaktion 31"
+{
+   #TRANS 3041 {} -14247
+   #TRANS 1920 {} 14247
+}
+
+#VER A 32 20210205 "Transaktion 32"
+{
+   #TRANS 3041 {} -14384
+   #TRANS 1920 {} 14384
+}
+
+#VER A 33 20210206 "Transaktion 33"
+{
+   #TRANS 3041 {} -14521
+   #TRANS 1920 {} 14521
+}
+
+#VER A 34 20210207 "Transaktion 34"
+{
+   #TRANS 3041 {} -14658
+   #TRANS 1920 {} 14658
+}
+
+#VER A 35 20210208 "Transaktion 35"
+{
+   #TRANS 3041 {} -14795
+   #TRANS 1920 {} 14795
+}
+
+#VER A 36 20210209 "Transaktion 36"
+{
+   #TRANS 3041 {} -14932
+   #TRANS 1920 {} 14932
+}
+
+#VER A 37 20210210 "Transaktion 37"
+{
+   #TRANS 3041 {} -15069
+   #TRANS 1920 {} 15069
+}
+
+#VER A 38 20210211 "Transaktion 38"
+{
+   #TRANS 3041 {} -15206
+   #TRANS 1920 {} 15206
+}
+
+#VER A 39 20210212 "Transaktion 39"
+{
+   #TRANS 3041 {} -15343
+   #TRANS 1920 {} 15343
+}
+
+#VER A 40 20210213 "Transaktion 40"
+{
+   #TRANS 3041 {} -15480
+   #TRANS 1920 {} 15480
+}
+
+#VER A 41 20210214 "Transaktion 41"
+{
+   #TRANS 3041 {} -15617
+   #TRANS 1920 {} 15617
+}
+
+#VER A 42 20210215 "Transaktion 42"
+{
+   #TRANS 3041 {} -15754
+   #TRANS 1920 {} 15754
+}
+
+#VER A 43 20210216 "Transaktion 43"
+{
+   #TRANS 3041 {} -15891
+   #TRANS 1920 {} 15891
+}
+
+#VER A 44 20210217 "Transaktion 44"
+{
+   #TRANS 3041 {} -16028
+   #TRANS 1920 {} 16028
+}
+
+#VER A 45 20210218 "Transaktion 45"
+{
+   #TRANS 3041 {} -16165
+   #TRANS 1920 {} 16165
+}
+
+#VER A 46 20210219 "Transaktion 46"
+{
+   #TRANS 3041 {} -16302
+   #TRANS 1920 {} 16302
+}
+
+#VER A 47 20210220 "Transaktion 47"
+{
+   #TRANS 3041 {} -16439
+   #TRANS 1920 {} 16439
+}
+
+#VER A 48 20210221 "Transaktion 48"
+{
+   #TRANS 3041 {} -16576
+   #TRANS 1920 {} 16576
+}
+
+#VER A 49 20210222 "Transaktion 49"
+{
+   #TRANS 3041 {} -16713
+   #TRANS 1920 {} 16713
+}
+
+#VER A 50 20210223 "Transaktion 50"
+{
+   #TRANS 3041 {} -16850
+   #TRANS 1920 {} 16850
+}
+
+#VER A 51 20210224 "Transaktion 51"
+{
+   #TRANS 3041 {} -16987
+   #TRANS 1920 {} 16987
+}
+
+#VER A 52 20210225 "Transaktion 52"
+{
+   #TRANS 3041 {} -17124
+   #TRANS 1920 {} 17124
+}
+
+#VER A 53 20210226 "Transaktion 53"
+{
+   #TRANS 3041 {} -17261
+   #TRANS 1920 {} 17261
+}
+
+#VER A 54 20210227 "Transaktion 54"
+{
+   #TRANS 3041 {} -17398
+   #TRANS 1920 {} 17398
+}
+
+#VER A 55 20210228 "Transaktion 55"
+{
+   #TRANS 3041 {} -17535
+   #TRANS 1920 {} 17535
+}
+
+#VER A 56 20210301 "Transaktion 56"
+{
+   #TRANS 3041 {} -17672
+   #TRANS 1920 {} 17672
+}
+
+#VER A 57 20210302 "Transaktion 57"
+{
+   #TRANS 3041 {} -17809
+   #TRANS 1920 {} 17809
+}
+
+#VER A 58 20210303 "Transaktion 58"
+{
+   #TRANS 3041 {} -17946
+   #TRANS 1920 {} 17946
+}
+
+#VER A 59 20210304 "Transaktion 59"
+{
+   #TRANS 3041 {} -18083
+   #TRANS 1920 {} 18083
+}
+
+#VER A 60 20210305 "Transaktion 60"
+{
+   #TRANS 3041 {} -18220
+   #TRANS 1920 {} 18220
+}
+
+#VER A 61 20210306 "Transaktion 61"
+{
+   #TRANS 3041 {} -18357
+   #TRANS 1920 {} 18357
+}
+
+#VER A 62 20210307 "Transaktion 62"
+{
+   #TRANS 3041 {} -18494
+   #TRANS 1920 {} 18494
+}
+
+#VER A 63 20210308 "Transaktion 63"
+{
+   #TRANS 3041 {} -18631
+   #TRANS 1920 {} 18631
+}
+
+#VER A 64 20210309 "Transaktion 64"
+{
+   #TRANS 3041 {} -18768
+   #TRANS 1920 {} 18768
+}
+
+#VER A 65 20210310 "Transaktion 65"
+{
+   #TRANS 3041 {} -18905
+   #TRANS 1920 {} 18905
+}
+
+#VER A 66 20210311 "Transaktion 66"
+{
+   #TRANS 3041 {} -19042
+   #TRANS 1920 {} 19042
+}
+
+#VER A 67 20210312 "Transaktion 67"
+{
+   #TRANS 3041 {} -19179
+   #TRANS 1920 {} 19179
+}
+
+#VER A 68 20210313 "Transaktion 68"
+{
+   #TRANS 3041 {} -19316
+   #TRANS 1920 {} 19316
+}
+
+#VER A 69 20210314 "Transaktion 69"
+{
+   #TRANS 3041 {} -19453
+   #TRANS 1920 {} 19453
+}
+
+#VER A 70 20210315 "Transaktion 70"
+{
+   #TRANS 3041 {} -19590
+   #TRANS 1920 {} 19590
+}
+
+#VER A 71 20210316 "Transaktion 71"
+{
+   #TRANS 3041 {} -19727
+   #TRANS 1920 {} 19727
+}
+
+#VER A 72 20210317 "Transaktion 72"
+{
+   #TRANS 3041 {} -19864
+   #TRANS 1920 {} 19864
+}
+
+#VER A 73 20210318 "Transaktion 73"
+{
+   #TRANS 3041 {} -20001
+   #TRANS 1920 {} 20001
+}
+
+#VER A 74 20210319 "Transaktion 74"
+{
+   #TRANS 3041 {} -20138
+   #TRANS 1920 {} 20138
+}
+
+#VER A 75 20210320 "Transaktion 75"
+{
+   #TRANS 3041 {} -20275
+   #TRANS 1920 {} 20275
+}
+
+#VER A 76 20210321 "Transaktion 76"
+{
+   #TRANS 3041 {} -20412
+   #TRANS 1920 {} 20412
+}
+
+#VER A 77 20210322 "Transaktion 77"
+{
+   #TRANS 3041 {} -20549
+   #TRANS 1920 {} 20549
+}
+
+#VER A 78 20210323 "Transaktion 78"
+{
+   #TRANS 3041 {} -20686
+   #TRANS 1920 {} 20686
+}
+
+#VER A 79 20210324 "Transaktion 79"
+{
+   #TRANS 3041 {} -20823
+   #TRANS 1920 {} 20823
+}
+
+#VER A 80 20210325 "Transaktion 80"
+{
+   #TRANS 3041 {} -20960
+   #TRANS 1920 {} 20960
+}
+
+#VER A 81 20210326 "Transaktion 81"
+{
+   #TRANS 3041 {} -21097
+   #TRANS 1920 {} 21097
+}
+
+#VER A 82 20210327 "Transaktion 82"
+{
+   #TRANS 3041 {} -21234
+   #TRANS 1920 {} 21234
+}
+
+#VER A 83 20210328 "Transaktion 83"
+{
+   #TRANS 3041 {} -21371
+   #TRANS 1920 {} 21371
+}
+
+#VER A 84 20210329 "Transaktion 84"
+{
+   #TRANS 3041 {} -21508
+   #TRANS 1920 {} 21508
+}
+
+#VER A 85 20210330 "Transaktion 85"
+{
+   #TRANS 3041 {} -21645
+   #TRANS 1920 {} 21645
+}
+
+#VER A 86 20210331 "Transaktion 86"
+{
+   #TRANS 3041 {} -21782
+   #TRANS 1920 {} 21782
+}
+
+#VER A 87 20210401 "Transaktion 87"
+{
+   #TRANS 3041 {} -21919
+   #TRANS 1920 {} 21919
+}
+
+#VER A 88 20210402 "Transaktion 88"
+{
+   #TRANS 3041 {} -22056
+   #TRANS 1920 {} 22056
+}
+
+#VER A 89 20210403 "Transaktion 89"
+{
+   #TRANS 3041 {} -22193
+   #TRANS 1920 {} 22193
+}
+
+#VER A 90 20210404 "Transaktion 90"
+{
+   #TRANS 3041 {} -22330
+   #TRANS 1920 {} 22330
+}
+
+#VER A 91 20210405 "Transaktion 91"
+{
+   #TRANS 3041 {} -22467
+   #TRANS 1920 {} 22467
+}
+
+#VER A 92 20210406 "Transaktion 92"
+{
+   #TRANS 3041 {} -22604
+   #TRANS 1920 {} 22604
+}
+
+#VER A 93 20210407 "Transaktion 93"
+{
+   #TRANS 3041 {} -22741
+   #TRANS 1920 {} 22741
+}
+
+#VER A 94 20210408 "Transaktion 94"
+{
+   #TRANS 3041 {} -22878
+   #TRANS 1920 {} 22878
+}
+
+#VER A 95 20210409 "Transaktion 95"
+{
+   #TRANS 3041 {} -23015
+   #TRANS 1920 {} 23015
+}
+
+#VER A 96 20210410 "Transaktion 96"
+{
+   #TRANS 3041 {} -23152
+   #TRANS 1920 {} 23152
+}
+
+#VER A 97 20210411 "Transaktion 97"
+{
+   #TRANS 3041 {} -23289
+   #TRANS 1920 {} 23289
+}
+
+#VER A 98 20210412 "Transaktion 98"
+{
+   #TRANS 3041 {} -23426
+   #TRANS 1920 {} 23426
+}
+
+#VER A 99 20210413 "Transaktion 99"
+{
+   #TRANS 3041 {} -23563
+   #TRANS 1920 {} 23563
+}
+
+#VER A 100 20210414 "Transaktion 100"
+{
+   #TRANS 3041 {} -23700
+   #TRANS 1920 {} 23700
+}
+
+#VER A 101 20210415 "Transaktion 101"
+{
+   #TRANS 3041 {} -23837
+   #TRANS 1920 {} 23837
+}
+
+#VER A 102 20210416 "Transaktion 102"
+{
+   #TRANS 3041 {} -23974
+   #TRANS 1920 {} 23974
+}
+
+#VER A 103 20210417 "Transaktion 103"
+{
+   #TRANS 3041 {} -24111
+   #TRANS 1920 {} 24111
+}
+
+#VER A 104 20210418 "Transaktion 104"
+{
+   #TRANS 3041 {} -24248
+   #TRANS 1920 {} 24248
+}
+
+#VER A 105 20210419 "Transaktion 105"
+{
+   #TRANS 3041 {} -24385
+   #TRANS 1920 {} 24385
+}
+
+#VER A 106 20210420 "Transaktion 106"
+{
+   #TRANS 3041 {} -24522
+   #TRANS 1920 {} 24522
+}
+
+#VER A 107 20210421 "Transaktion 107"
+{
+   #TRANS 3041 {} -24659
+   #TRANS 1920 {} 24659
+}
+
+#VER A 108 20210422 "Transaktion 108"
+{
+   #TRANS 3041 {} -24796
+   #TRANS 1920 {} 24796
+}
+
+#VER A 109 20210423 "Transaktion 109"
+{
+   #TRANS 3041 {} -24933
+   #TRANS 1920 {} 24933
+}
+
+#VER A 110 20210424 "Transaktion 110"
+{
+   #TRANS 3041 {} -25070
+   #TRANS 1920 {} 25070
+}
+
+#VER A 111 20210425 "Transaktion 111"
+{
+   #TRANS 3041 {} -25207
+   #TRANS 1920 {} 25207
+}
+
+#VER A 112 20210426 "Transaktion 112"
+{
+   #TRANS 3041 {} -25344
+   #TRANS 1920 {} 25344
+}
+
+#VER A 113 20210427 "Transaktion 113"
+{
+   #TRANS 3041 {} -25481
+   #TRANS 1920 {} 25481
+}
+
+#VER A 114 20210428 "Transaktion 114"
+{
+   #TRANS 3041 {} -25618
+   #TRANS 1920 {} 25618
+}
+
+#VER A 115 20210429 "Transaktion 115"
+{
+   #TRANS 3041 {} -25755
+   #TRANS 1920 {} 25755
+}
+
+#VER A 116 20210430 "Transaktion 116"
+{
+   #TRANS 3041 {} -25892
+   #TRANS 1920 {} 25892
+}
+
+#VER A 117 20210501 "Transaktion 117"
+{
+   #TRANS 3041 {} -26029
+   #TRANS 1920 {} 26029
+}
+
+#VER A 118 20210502 "Transaktion 118"
+{
+   #TRANS 3041 {} -26166
+   #TRANS 1920 {} 26166
+}
+
+#VER A 119 20210503 "Transaktion 119"
+{
+   #TRANS 3041 {} -26303
+   #TRANS 1920 {} 26303
+}
+
+#VER A 120 20210504 "Transaktion 120"
+{
+   #TRANS 3041 {} -26440
+   #TRANS 1920 {} 26440
+}
+
+#VER A 121 20210505 "Transaktion 121"
+{
+   #TRANS 3041 {} -26577
+   #TRANS 1920 {} 26577
+}
+
+#VER A 122 20210506 "Transaktion 122"
+{
+   #TRANS 3041 {} -26714
+   #TRANS 1920 {} 26714
+}
+
+#VER A 123 20210507 "Transaktion 123"
+{
+   #TRANS 3041 {} -26851
+   #TRANS 1920 {} 26851
+}
+
+#VER A 124 20210508 "Transaktion 124"
+{
+   #TRANS 3041 {} -26988
+   #TRANS 1920 {} 26988
+}
+
+#VER A 125 20210509 "Transaktion 125"
+{
+   #TRANS 3041 {} -27125
+   #TRANS 1920 {} 27125
+}
+
+#VER A 126 20210510 "Transaktion 126"
+{
+   #TRANS 3041 {} -27262
+   #TRANS 1920 {} 27262
+}
+
+#VER A 127 20210511 "Transaktion 127"
+{
+   #TRANS 3041 {} -27399
+   #TRANS 1920 {} 27399
+}
+
+#VER A 128 20210512 "Transaktion 128"
+{
+   #TRANS 3041 {} -27536
+   #TRANS 1920 {} 27536
+}
+
+#VER A 129 20210513 "Transaktion 129"
+{
+   #TRANS 3041 {} -27673
+   #TRANS 1920 {} 27673
+}
+
+#VER A 130 20210514 "Transaktion 130"
+{
+   #TRANS 3041 {} -27810
+   #TRANS 1920 {} 27810
+}
+
+#VER A 131 20210515 "Transaktion 131"
+{
+   #TRANS 3041 {} -27947
+   #TRANS 1920 {} 27947
+}
+
+#VER A 132 20210516 "Transaktion 132"
+{
+   #TRANS 3041 {} -28084
+   #TRANS 1920 {} 28084
+}
+
+#VER A 133 20210517 "Transaktion 133"
+{
+   #TRANS 3041 {} -28221
+   #TRANS 1920 {} 28221
+}
+
+#VER A 134 20210518 "Transaktion 134"
+{
+   #TRANS 3041 {} -28358
+   #TRANS 1920 {} 28358
+}
+
+#VER A 135 20210519 "Transaktion 135"
+{
+   #TRANS 3041 {} -28495
+   #TRANS 1920 {} 28495
+}
+
+#VER A 136 20210520 "Transaktion 136"
+{
+   #TRANS 3041 {} -28632
+   #TRANS 1920 {} 28632
+}
+
+#VER A 137 20210521 "Transaktion 137"
+{
+   #TRANS 3041 {} -28769
+   #TRANS 1920 {} 28769
+}
+
+#VER A 138 20210522 "Transaktion 138"
+{
+   #TRANS 3041 {} -28906
+   #TRANS 1920 {} 28906
+}
+
+#VER A 139 20210523 "Transaktion 139"
+{
+   #TRANS 3041 {} -29043
+   #TRANS 1920 {} 29043
+}
+
+#VER A 140 20210524 "Transaktion 140"
+{
+   #TRANS 3041 {} -29180
+   #TRANS 1920 {} 29180
+}
+
+#VER A 141 20210525 "Transaktion 141"
+{
+   #TRANS 3041 {} -29317
+   #TRANS 1920 {} 29317
+}
+
+#VER A 142 20210526 "Transaktion 142"
+{
+   #TRANS 3041 {} -29454
+   #TRANS 1920 {} 29454
+}
+
+#VER A 143 20210527 "Transaktion 143"
+{
+   #TRANS 3041 {} -29591
+   #TRANS 1920 {} 29591
+}
+
+#VER A 144 20210528 "Transaktion 144"
+{
+   #TRANS 3041 {} -29728
+   #TRANS 1920 {} 29728
+}
+
+#VER A 145 20210529 "Transaktion 145"
+{
+   #TRANS 3041 {} -29865
+   #TRANS 1920 {} 29865
+}
+
+#VER A 146 20210530 "Transaktion 146"
+{
+   #TRANS 3041 {} -30002
+   #TRANS 1920 {} 30002
+}
+
+#VER A 147 20210531 "Transaktion 147"
+{
+   #TRANS 3041 {} -30139
+   #TRANS 1920 {} 30139
+}
+
+#VER A 148 20210601 "Transaktion 148"
+{
+   #TRANS 3041 {} -30276
+   #TRANS 1920 {} 30276
+}
+
+#VER A 149 20210602 "Transaktion 149"
+{
+   #TRANS 3041 {} -30413
+   #TRANS 1920 {} 30413
+}
+
+#VER A 150 20210603 "Transaktion 150"
+{
+   #TRANS 3041 {} -30550
+   #TRANS 1920 {} 30550
+}
+
+#VER A 151 20210604 "Transaktion 151"
+{
+   #TRANS 3041 {} -30687
+   #TRANS 1920 {} 30687
+}
+
+#VER A 152 20210605 "Transaktion 152"
+{
+   #TRANS 3041 {} -30824
+   #TRANS 1920 {} 30824
+}
+
+#VER A 153 20210606 "Transaktion 153"
+{
+   #TRANS 3041 {} -30961
+   #TRANS 1920 {} 30961
+}
+
+#VER A 154 20210607 "Transaktion 154"
+{
+   #TRANS 3041 {} -31098
+   #TRANS 1920 {} 31098
+}
+
+#VER A 155 20210608 "Transaktion 155"
+{
+   #TRANS 3041 {} -31235
+   #TRANS 1920 {} 31235
+}
+
+#VER A 156 20210609 "Transaktion 156"
+{
+   #TRANS 3041 {} -31372
+   #TRANS 1920 {} 31372
+}
+
+#VER A 157 20210610 "Transaktion 157"
+{
+   #TRANS 3041 {} -31509
+   #TRANS 1920 {} 31509
+}
+
+#VER A 158 20210611 "Transaktion 158"
+{
+   #TRANS 3041 {} -31646
+   #TRANS 1920 {} 31646
+}
+
+#VER A 159 20210612 "Transaktion 159"
+{
+   #TRANS 3041 {} -31783
+   #TRANS 1920 {} 31783
+}
+
+#VER A 160 20210613 "Transaktion 160"
+{
+   #TRANS 3041 {} -31920
+   #TRANS 1920 {} 31920
+}
+
+#VER A 161 20210614 "Transaktion 161"
+{
+   #TRANS 3041 {} -32057
+   #TRANS 1920 {} 32057
+}
+
+#VER A 162 20210615 "Transaktion 162"
+{
+   #TRANS 3041 {} -32194
+   #TRANS 1920 {} 32194
+}
+
+#VER A 163 20210616 "Transaktion 163"
+{
+   #TRANS 3041 {} -32331
+   #TRANS 1920 {} 32331
+}
+
+#VER A 164 20210617 "Transaktion 164"
+{
+   #TRANS 3041 {} -32468
+   #TRANS 1920 {} 32468
+}
+
+#VER A 165 20210618 "Transaktion 165"
+{
+   #TRANS 3041 {} -32605
+   #TRANS 1920 {} 32605
+}
+
+#VER A 166 20210619 "Transaktion 166"
+{
+   #TRANS 3041 {} -32742
+   #TRANS 1920 {} 32742
+}
+
+#VER A 167 20210620 "Transaktion 167"
+{
+   #TRANS 3041 {} -32879
+   #TRANS 1920 {} 32879
+}
+
+#VER A 168 20210621 "Transaktion 168"
+{
+   #TRANS 3041 {} -33016
+   #TRANS 1920 {} 33016
+}
+
+#VER A 169 20210622 "Transaktion 169"
+{
+   #TRANS 3041 {} -33153
+   #TRANS 1920 {} 33153
+}
+
+#VER A 170 20210623 "Transaktion 170"
+{
+   #TRANS 3041 {} -33290
+   #TRANS 1920 {} 33290
+}
+
+#VER A 171 20210624 "Transaktion 171"
+{
+   #TRANS 3041 {} -33427
+   #TRANS 1920 {} 33427
+}
+
+#VER A 172 20210625 "Transaktion 172"
+{
+   #TRANS 3041 {} -33564
+   #TRANS 1920 {} 33564
+}
+
+#VER A 173 20210626 "Transaktion 173"
+{
+   #TRANS 3041 {} -33701
+   #TRANS 1920 {} 33701
+}
+
+#VER A 174 20210627 "Transaktion 174"
+{
+   #TRANS 3041 {} -33838
+   #TRANS 1920 {} 33838
+}
+
+#VER A 175 20210628 "Transaktion 175"
+{
+   #TRANS 3041 {} -33975
+   #TRANS 1920 {} 33975
+}
+
+#VER A 176 20210629 "Transaktion 176"
+{
+   #TRANS 3041 {} -34112
+   #TRANS 1920 {} 34112
+}
+
+#VER A 177 20210630 "Transaktion 177"
+{
+   #TRANS 3041 {} -34249
+   #TRANS 1920 {} 34249
+}
+
+#VER A 178 20210701 "Transaktion 178"
+{
+   #TRANS 3041 {} -34386
+   #TRANS 1920 {} 34386
+}
+
+#VER A 179 20210702 "Transaktion 179"
+{
+   #TRANS 3041 {} -34523
+   #TRANS 1920 {} 34523
+}
+
+#VER A 180 20210703 "Transaktion 180"
+{
+   #TRANS 3041 {} -34660
+   #TRANS 1920 {} 34660
+}
+
+#VER A 181 20210704 "Transaktion 181"
+{
+   #TRANS 3041 {} -34797
+   #TRANS 1920 {} 34797
+}
+
+#VER A 182 20210705 "Transaktion 182"
+{
+   #TRANS 3041 {} -34934
+   #TRANS 1920 {} 34934
+}
+
+#VER A 183 20210706 "Transaktion 183"
+{
+   #TRANS 3041 {} -35071
+   #TRANS 1920 {} 35071
+}
+
+#VER A 184 20210707 "Transaktion 184"
+{
+   #TRANS 3041 {} -35208
+   #TRANS 1920 {} 35208
+}
+
+#VER A 185 20210708 "Transaktion 185"
+{
+   #TRANS 3041 {} -35345
+   #TRANS 1920 {} 35345
+}
+
+#VER A 186 20210709 "Transaktion 186"
+{
+   #TRANS 3041 {} -35482
+   #TRANS 1920 {} 35482
+}
+
+#VER A 187 20210710 "Transaktion 187"
+{
+   #TRANS 3041 {} -35619
+   #TRANS 1920 {} 35619
+}
+
+#VER A 188 20210711 "Transaktion 188"
+{
+   #TRANS 3041 {} -35756
+   #TRANS 1920 {} 35756
+}
+
+#VER A 189 20210712 "Transaktion 189"
+{
+   #TRANS 3041 {} -35893
+   #TRANS 1920 {} 35893
+}
+
+#VER A 190 20210713 "Transaktion 190"
+{
+   #TRANS 3041 {} -36030
+   #TRANS 1920 {} 36030
+}
+
+#VER A 191 20210714 "Transaktion 191"
+{
+   #TRANS 3041 {} -36167
+   #TRANS 1920 {} 36167
+}
+
+#VER A 192 20210715 "Transaktion 192"
+{
+   #TRANS 3041 {} -36304
+   #TRANS 1920 {} 36304
+}
+
+#VER A 193 20210716 "Transaktion 193"
+{
+   #TRANS 3041 {} -36441
+   #TRANS 1920 {} 36441
+}
+
+#VER A 194 20210717 "Transaktion 194"
+{
+   #TRANS 3041 {} -36578
+   #TRANS 1920 {} 36578
+}
+
+#VER A 195 20210718 "Transaktion 195"
+{
+   #TRANS 3041 {} -36715
+   #TRANS 1920 {} 36715
+}
+
+#VER A 196 20210719 "Transaktion 196"
+{
+   #TRANS 3041 {} -36852
+   #TRANS 1920 {} 36852
+}
+
+#VER A 197 20210720 "Transaktion 197"
+{
+   #TRANS 3041 {} -36989
+   #TRANS 1920 {} 36989
+}
+
+#VER A 198 20210721 "Transaktion 198"
+{
+   #TRANS 3041 {} -37126
+   #TRANS 1920 {} 37126
+}
+
+#VER A 199 20210722 "Transaktion 199"
+{
+   #TRANS 3041 {} -37263
+   #TRANS 1920 {} 37263
+}
+
+#VER A 200 20210723 "Transaktion 200"
+{
+   #TRANS 3041 {} -37400
+   #TRANS 1920 {} 37400
+}
+
+#VER A 201 20210724 "Transaktion 201"
+{
+   #TRANS 3041 {} -37537
+   #TRANS 1920 {} 37537
+}
+
+#VER A 202 20210725 "Transaktion 202"
+{
+   #TRANS 3041 {} -37674
+   #TRANS 1920 {} 37674
+}
+
+#VER A 203 20210726 "Transaktion 203"
+{
+   #TRANS 3041 {} -37811
+   #TRANS 1920 {} 37811
+}
+
+#VER A 204 20210727 "Transaktion 204"
+{
+   #TRANS 3041 {} -37948
+   #TRANS 1920 {} 37948
+}
+
+#VER A 205 20210728 "Transaktion 205"
+{
+   #TRANS 3041 {} -38085
+   #TRANS 1920 {} 38085
+}
+
+#VER A 206 20210729 "Transaktion 206"
+{
+   #TRANS 3041 {} -38222
+   #TRANS 1920 {} 38222
+}
+
+#VER A 207 20210730 "Transaktion 207"
+{
+   #TRANS 3041 {} -38359
+   #TRANS 1920 {} 38359
+}
+
+#VER A 208 20210731 "Transaktion 208"
+{
+   #TRANS 3041 {} -38496
+   #TRANS 1920 {} 38496
+}
+
+#VER A 209 20210801 "Transaktion 209"
+{
+   #TRANS 3041 {} -38633
+   #TRANS 1920 {} 38633
+}
+
+#VER A 210 20210802 "Transaktion 210"
+{
+   #TRANS 3041 {} -38770
+   #TRANS 1920 {} 38770
+}
+
+#VER A 211 20210803 "Transaktion 211"
+{
+   #TRANS 3041 {} -38907
+   #TRANS 1920 {} 38907
+}
+
+#VER A 212 20210804 "Transaktion 212"
+{
+   #TRANS 3041 {} -39044
+   #TRANS 1920 {} 39044
+}
+
+#VER A 213 20210805 "Transaktion 213"
+{
+   #TRANS 3041 {} -39181
+   #TRANS 1920 {} 39181
+}
+
+#VER A 214 20210806 "Transaktion 214"
+{
+   #TRANS 3041 {} -39318
+   #TRANS 1920 {} 39318
+}
+
+#VER A 215 20210807 "Transaktion 215"
+{
+   #TRANS 3041 {} -39455
+   #TRANS 1920 {} 39455
+}
+
+#VER A 216 20210808 "Transaktion 216"
+{
+   #TRANS 3041 {} -39592
+   #TRANS 1920 {} 39592
+}
+
+#VER A 217 20210809 "Transaktion 217"
+{
+   #TRANS 3041 {} -39729
+   #TRANS 1920 {} 39729
+}
+
+#VER A 218 20210810 "Transaktion 218"
+{
+   #TRANS 3041 {} -39866
+   #TRANS 1920 {} 39866
+}
+
+#VER A 219 20210811 "Transaktion 219"
+{
+   #TRANS 3041 {} -40003
+   #TRANS 1920 {} 40003
+}
+
+#VER A 220 20210812 "Transaktion 220"
+{
+   #TRANS 3041 {} -40140
+   #TRANS 1920 {} 40140
+}
+
+#VER A 221 20210813 "Transaktion 221"
+{
+   #TRANS 3041 {} -40277
+   #TRANS 1920 {} 40277
+}
+
+#VER A 222 20210814 "Transaktion 222"
+{
+   #TRANS 3041 {} -40414
+   #TRANS 1920 {} 40414
+}
+
+#VER A 223 20210815 "Transaktion 223"
+{
+   #TRANS 3041 {} -40551
+   #TRANS 1920 {} 40551
+}
+
+#VER A 224 20210816 "Transaktion 224"
+{
+   #TRANS 3041 {} -40688
+   #TRANS 1920 {} 40688
+}
+
+#VER A 225 20210817 "Transaktion 225"
+{
+   #TRANS 3041 {} -40825
+   #TRANS 1920 {} 40825
+}
+
+#VER A 226 20210818 "Transaktion 226"
+{
+   #TRANS 3041 {} -40962
+   #TRANS 1920 {} 40962
+}
+
+#VER A 227 20210819 "Transaktion 227"
+{
+   #TRANS 3041 {} -41099
+   #TRANS 1920 {} 41099
+}
+
+#VER A 228 20210820 "Transaktion 228"
+{
+   #TRANS 3041 {} -41236
+   #TRANS 1920 {} 41236
+}
+
+#VER A 229 20210821 "Transaktion 229"
+{
+   #TRANS 3041 {} -41373
+   #TRANS 1920 {} 41373
+}
+
+#VER A 230 20210822 "Transaktion 230"
+{
+   #TRANS 3041 {} -41510
+   #TRANS 1920 {} 41510
+}
+
+#VER A 231 20210823 "Transaktion 231"
+{
+   #TRANS 3041 {} -41647
+   #TRANS 1920 {} 41647
+}
+
+#VER A 232 20210824 "Transaktion 232"
+{
+   #TRANS 3041 {} -41784
+   #TRANS 1920 {} 41784
+}
+
+#VER A 233 20210825 "Transaktion 233"
+{
+   #TRANS 3041 {} -41921
+   #TRANS 1920 {} 41921
+}
+
+#VER A 234 20210826 "Transaktion 234"
+{
+   #TRANS 3041 {} -42058
+   #TRANS 1920 {} 42058
+}
+
+#VER A 235 20210827 "Transaktion 235"
+{
+   #TRANS 3041 {} -42195
+   #TRANS 1920 {} 42195
+}
+
+#VER A 236 20210828 "Transaktion 236"
+{
+   #TRANS 3041 {} -42332
+   #TRANS 1920 {} 42332
+}
+
+#VER A 237 20210829 "Transaktion 237"
+{
+   #TRANS 3041 {} -42469
+   #TRANS 1920 {} 42469
+}
+
+#VER A 238 20210830 "Transaktion 238"
+{
+   #TRANS 3041 {} -42606
+   #TRANS 1920 {} 42606
+}
+
+#VER A 239 20210831 "Transaktion 239"
+{
+   #TRANS 3041 {} -42743
+   #TRANS 1920 {} 42743
+}
+
+#VER A 240 20210901 "Transaktion 240"
+{
+   #TRANS 3041 {} -42880
+   #TRANS 1920 {} 42880
+}
+
+#VER A 241 20210902 "Transaktion 241"
+{
+   #TRANS 3041 {} -43017
+   #TRANS 1920 {} 43017
+}
+
+#VER A 242 20210903 "Transaktion 242"
+{
+   #TRANS 3041 {} -43154
+   #TRANS 1920 {} 43154
+}
+
+#VER A 243 20210904 "Transaktion 243"
+{
+   #TRANS 3041 {} -43291
+   #TRANS 1920 {} 43291
+}
+
+#VER A 244 20210905 "Transaktion 244"
+{
+   #TRANS 3041 {} -43428
+   #TRANS 1920 {} 43428
+}
+
+#VER A 245 20210906 "Transaktion 245"
+{
+   #TRANS 3041 {} -43565
+   #TRANS 1920 {} 43565
+}
+
+#VER A 246 20210907 "Transaktion 246"
+{
+   #TRANS 3041 {} -43702
+   #TRANS 1920 {} 43702
+}
+
+#VER A 247 20210908 "Transaktion 247"
+{
+   #TRANS 3041 {} -43839
+   #TRANS 1920 {} 43839
+}
+
+#VER A 248 20210909 "Transaktion 248"
+{
+   #TRANS 3041 {} -43976
+   #TRANS 1920 {} 43976
+}
+
+#VER A 249 20210910 "Transaktion 249"
+{
+   #TRANS 3041 {} -44113
+   #TRANS 1920 {} 44113
+}
+
+#VER A 250 20210911 "Transaktion 250"
+{
+   #TRANS 3041 {} -44250
+   #TRANS 1920 {} 44250
+}
+
+#VER A 251 20210912 "Transaktion 251"
+{
+   #TRANS 3041 {} -44387
+   #TRANS 1920 {} 44387
+}
+
+#VER A 252 20210913 "Transaktion 252"
+{
+   #TRANS 3041 {} -44524
+   #TRANS 1920 {} 44524
+}
+
+#VER A 253 20210914 "Transaktion 253"
+{
+   #TRANS 3041 {} -44661
+   #TRANS 1920 {} 44661
+}
+
+#VER A 254 20210915 "Transaktion 254"
+{
+   #TRANS 3041 {} -44798
+   #TRANS 1920 {} 44798
+}
+
+#VER A 255 20210916 "Transaktion 255"
+{
+   #TRANS 3041 {} -44935
+   #TRANS 1920 {} 44935
+}
+
+#VER A 256 20210917 "Transaktion 256"
+{
+   #TRANS 3041 {} -45072
+   #TRANS 1920 {} 45072
+}
+
+#VER A 257 20210918 "Transaktion 257"
+{
+   #TRANS 3041 {} -45209
+   #TRANS 1920 {} 45209
+}
+
+#VER A 258 20210919 "Transaktion 258"
+{
+   #TRANS 3041 {} -45346
+   #TRANS 1920 {} 45346
+}
+
+#VER A 259 20210920 "Transaktion 259"
+{
+   #TRANS 3041 {} -45483
+   #TRANS 1920 {} 45483
+}
+
+#VER A 260 20210921 "Transaktion 260"
+{
+   #TRANS 3041 {} -45620
+   #TRANS 1920 {} 45620
+}
+
+#VER A 261 20210922 "Transaktion 261"
+{
+   #TRANS 3041 {} -45757
+   #TRANS 1920 {} 45757
+}
+
+#VER A 262 20210923 "Transaktion 262"
+{
+   #TRANS 3041 {} -45894
+   #TRANS 1920 {} 45894
+}
+
+#VER A 263 20210924 "Transaktion 263"
+{
+   #TRANS 3041 {} -46031
+   #TRANS 1920 {} 46031
+}
+
+#VER A 264 20210925 "Transaktion 264"
+{
+   #TRANS 3041 {} -46168
+   #TRANS 1920 {} 46168
+}
+
+#VER A 265 20210926 "Transaktion 265"
+{
+   #TRANS 3041 {} -46305
+   #TRANS 1920 {} 46305
+}
+
+#VER A 266 20210927 "Transaktion 266"
+{
+   #TRANS 3041 {} -46442
+   #TRANS 1920 {} 46442
+}
+
+#VER A 267 20210928 "Transaktion 267"
+{
+   #TRANS 3041 {} -46579
+   #TRANS 1920 {} 46579
+}
+
+#VER A 268 20210929 "Transaktion 268"
+{
+   #TRANS 3041 {} -46716
+   #TRANS 1920 {} 46716
+}
+
+#VER A 269 20210930 "Transaktion 269"
+{
+   #TRANS 3041 {} -46853
+   #TRANS 1920 {} 46853
+}
+
+#VER A 270 20211001 "Transaktion 270"
+{
+   #TRANS 3041 {} -46990
+   #TRANS 1920 {} 46990
+}
+
+#VER A 271 20211002 "Transaktion 271"
+{
+   #TRANS 3041 {} -47127
+   #TRANS 1920 {} 47127
+}
+
+#VER A 272 20211003 "Transaktion 272"
+{
+   #TRANS 3041 {} -47264
+   #TRANS 1920 {} 47264
+}
+
+#VER A 273 20211004 "Transaktion 273"
+{
+   #TRANS 3041 {} -47401
+   #TRANS 1920 {} 47401
+}
+
+#VER A 274 20211005 "Transaktion 274"
+{
+   #TRANS 3041 {} -47538
+   #TRANS 1920 {} 47538
+}
+
+#VER A 275 20211006 "Transaktion 275"
+{
+   #TRANS 3041 {} -47675
+   #TRANS 1920 {} 47675
+}
+
+#VER A 276 20211007 "Transaktion 276"
+{
+   #TRANS 3041 {} -47812
+   #TRANS 1920 {} 47812
+}
+
+#VER A 277 20211008 "Transaktion 277"
+{
+   #TRANS 3041 {} -47949
+   #TRANS 1920 {} 47949
+}
+
+#VER A 278 20211009 "Transaktion 278"
+{
+   #TRANS 3041 {} -48086
+   #TRANS 1920 {} 48086
+}
+
+#VER A 279 20211010 "Transaktion 279"
+{
+   #TRANS 3041 {} -48223
+   #TRANS 1920 {} 48223
+}
+
+#VER A 280 20211011 "Transaktion 280"
+{
+   #TRANS 3041 {} -48360
+   #TRANS 1920 {} 48360
+}
+
+#VER A 281 20211012 "Transaktion 281"
+{
+   #TRANS 3041 {} -48497
+   #TRANS 1920 {} 48497
+}
+
+#VER A 282 20211013 "Transaktion 282"
+{
+   #TRANS 3041 {} -48634
+   #TRANS 1920 {} 48634
+}
+
+#VER A 283 20211014 "Transaktion 283"
+{
+   #TRANS 3041 {} -48771
+   #TRANS 1920 {} 48771
+}
+
+#VER A 284 20211015 "Transaktion 284"
+{
+   #TRANS 3041 {} -48908
+   #TRANS 1920 {} 48908
+}
+
+#VER A 285 20211016 "Transaktion 285"
+{
+   #TRANS 3041 {} -49045
+   #TRANS 1920 {} 49045
+}
+
+#VER A 286 20211017 "Transaktion 286"
+{
+   #TRANS 3041 {} -49182
+   #TRANS 1920 {} 49182
+}
+
+#VER A 287 20211018 "Transaktion 287"
+{
+   #TRANS 3041 {} -49319
+   #TRANS 1920 {} 49319
+}
+
+#VER A 288 20211019 "Transaktion 288"
+{
+   #TRANS 3041 {} -49456
+   #TRANS 1920 {} 49456
+}
+
+#VER A 289 20211020 "Transaktion 289"
+{
+   #TRANS 3041 {} -49593
+   #TRANS 1920 {} 49593
+}
+
+#VER A 290 20211021 "Transaktion 290"
+{
+   #TRANS 3041 {} -49730
+   #TRANS 1920 {} 49730
+}
+
+#VER A 291 20211022 "Transaktion 291"
+{
+   #TRANS 3041 {} -49867
+   #TRANS 1920 {} 49867
+}
+
+#VER A 292 20211023 "Transaktion 292"
+{
+   #TRANS 3041 {} -50004
+   #TRANS 1920 {} 50004
+}
+
+#VER A 293 20211024 "Transaktion 293"
+{
+   #TRANS 3041 {} -50141
+   #TRANS 1920 {} 50141
+}
+
+#VER A 294 20211025 "Transaktion 294"
+{
+   #TRANS 3041 {} -50278
+   #TRANS 1920 {} 50278
+}
+
+#VER A 295 20211026 "Transaktion 295"
+{
+   #TRANS 3041 {} -50415
+   #TRANS 1920 {} 50415
+}
+
