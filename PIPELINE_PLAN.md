@@ -186,28 +186,36 @@ sphere:
   business_description: "Försäljning av IT-produkter och IT-tjänster till företag"
 
   companies:
-    - org_nr: "XXXXXX-XXXX"  # Fylls i med riktiga orgnr
+    - org_nr: "XXXXXX-XXXX"  # OBS: Ersätt med riktigt org_nr (format "NNNNNN-NNNN") innan produktion
       name: "Wooz AB"
       role: "holding"
-    - org_nr: "XXXXXX-XXXX"
+    - org_nr: "XXXXXX-XXXX"  # OBS: Ersätt med riktigt org_nr
       name: "Asedo Sverige AB"
       role: "dotterbolag"
-    - org_nr: "XXXXXX-XXXX"
+    - org_nr: "XXXXXX-XXXX"  # OBS: Ersätt med riktigt org_nr
       name: "Asedo & Co AB"
       role: "dotterbolag"
-    - org_nr: "XXXXXX-XXXX"
+    - org_nr: "XXXXXX-XXXX"  # OBS: Ersätt med riktigt org_nr
       name: "Sophone AB"
       role: "dotterbolag"
-    - org_nr: "XXXXXX-XXXX"
+    - org_nr: "XXXXXX-XXXX"  # OBS: Ersätt med riktigt org_nr
       name: "Asedo AB"
       role: "fusionerat"
-    - org_nr: "XXXXXX-XXXX"
+    - org_nr: "XXXXXX-XXXX"  # OBS: Ersätt med riktigt org_nr
       name: "Asedo Tech AB"
       role: "intressebolag"
-    - org_nr: "XXXXXX-XXXX"
+    - org_nr: "XXXXXX-XXXX"  # OBS: Ersätt med riktigt org_nr
       name: "Asedo Connect AB"
       role: "fusionerat"
+
+# Valfri explicit fil-mappning om automatisk org_nr-matchning mot filnamn inte fungerar:
+file_mappings: {}
+# Exempel: file_mappings: {"556677-8899": "sophone_2025.csv"}
 ```
+
+> **OBS:** `wooz_config.yaml` innehåller platshållar-orgnr. Fyll i riktiga org-nummer
+> (format "NNNNNN-NNNN") innan analys körs mot verklig data. Testkörning mot
+> `test_data/`-filerna påverkas inte — de använder `default_config.yaml`.
 
 ### Checkpoint 1
 Kör: `python -c "from src.core.models import *; print('Alla modeller importerade OK')"`
@@ -608,15 +616,87 @@ Skapa `src/modules/amount_patterns.py`:
 - Om >25% av transaktionerna på ett konto är jämna → flagga
 
 ### Test
-Tester för båda modulerna med syntetisk data.
+
+**Modul C (`tests/test_modules/test_clearing_accounts.py`) — minst dessa assertions:**
+- Syntetisk verifikation på konto 2393 med belopp 60 000 kr → Finding med `risk_level = "HIGH"`, kategori `owner_loan`
+- Syntetisk post på clearing-konto (t.ex. 1630) utan rörelse i 91 dagar → Finding flaggas (kategori `old_open_balance`)
+- Balanserat clearing-konto med rörelse varje månad → inga fynd
+- Verifiera att `Finding.details` innehåller konto, belopp och antal dagar utan rörelse
+
+**Modul D (`tests/test_modules/test_amount_patterns.py`) — minst dessa assertions:**
+- 100 syntetiska belopp med uniform fördelning (alla siffror 1-9 lika vanliga) → chi-kvadrat ger p < 0.05 → Benford-avvikelse hittas
+- 100 syntetiska belopp genererade med korrekt Benford-fördelning → p >= 0.05 → inga fynd
+- 5 transaktioner på 9 800 kr (strax under 10 000-gräns) → `below_threshold`-fynd med risk MEDIUM
+- 8 transaktioner med exakt samma belopp och samma text → `repeated_amount`-fynd
+- Verifiera att Benford-testet INTE körs om antal transaktioner < 50 (ingen assertion om fynd, inget undantag)
 
 ### Checkpoint 7
-Kör: `pytest tests/test_modules/test_clearing_accounts.py tests/test_modules/test_amount_patterns.py -v`
-Visa testresultat och vänta på bekräftelse.
+Kör: `pytest tests/test_modules/test_clearing_accounts.py tests/test_modules/test_amount_patterns.py -v --tb=short`
+Alla tester ska vara gröna. Visa antal assertions per testfil. Vänta på bekräftelse.
 
 ---
 
 ## STEG 8: Modul E (Tidsmönster) och Modul F (Löner/kreditkort)
+
+### Förberedelse: Helgdagsberäkning (utils)
+
+Skapa `src/core/utils.py` med funktion:
+
+```python
+from datetime import date, timedelta
+
+def swedish_holidays(year: int) -> set[date]:
+    """Beräknar svenska helgdagar för givet år.
+    Använder Anonymous Gregorian algorithm för påskberäkning — inget extra paket krävs.
+    """
+    # Fasta helgdagar
+    fixed = [
+        date(year, 1, 1),   # Nyårsdagen
+        date(year, 1, 6),   # Trettondedag jul
+        date(year, 5, 1),   # Första maj
+        date(year, 6, 6),   # Nationaldagen
+        date(year, 12, 24), # Julafton
+        date(year, 12, 25), # Juldagen
+        date(year, 12, 26), # Annandag jul
+        date(year, 12, 31), # Nyårsafton
+    ]
+    # Påsk via Anonymous Gregorian algorithm
+    a = year % 19
+    b, c = divmod(year, 100)
+    d, e = divmod(b, 4)
+    f = (b + 8) // 25
+    g = (b - f + 1) // 3
+    h = (19*a + b - d - g + 15) % 30
+    i, k = divmod(c, 4)
+    l = (32 + 2*e + 2*i - h - k) % 7
+    m = (a + 11*h + 22*l) // 451
+    month, day = divmod(114 + h + l - 7*m, 31)
+    easter_sunday = date(year, month, day + 1)
+
+    moveable = [
+        easter_sunday - timedelta(days=2),   # Långfredag
+        easter_sunday,                        # Påskdagen
+        easter_sunday + timedelta(days=1),    # Annandag påsk
+        easter_sunday + timedelta(days=39),   # Kristi Himmelfärd
+    ]
+    # Midsommarafton = fredag 19-25 juni
+    june19 = date(year, 6, 19)
+    days_to_friday = (4 - june19.weekday()) % 7
+    moveable.append(june19 + timedelta(days=days_to_friday))
+
+    return set(fixed + moveable)
+```
+
+Skapa test `tests/test_utils.py`:
+- Verifiera 2024-03-29 (Långfredag 2024) ingår i `swedish_holidays(2024)`
+- Verifiera 2024-06-21 (Midsommarafton 2024) ingår
+- Verifiera 2025-04-18 (Långfredag 2025) ingår
+- Verifiera 2025-06-20 (Midsommarafton 2025) ingår
+- Verifiera 2024-12-25 (Juldagen) ingår
+
+Modul E importerar `swedish_holidays` från `src.core.utils`.
+
+---
 
 ### Modul E: Tidsmönster
 Skapa `src/modules/time_patterns.py`:
@@ -635,8 +715,24 @@ Skapa `src/modules/salary_expenses.py`:
 - Kreditkortsfakturor: identifiera poster på konto 6540-6570 eller med text "Visa"/"Mastercard"/"kreditkort", flagga belopp >20 000 kr
 - Okända uttag: transaktioner på bankkonto utan matchande verifikation med tydlig text
 
-### Test och Checkpoint 8
-Samma mönster — syntetisk testdata, pytest, vänta på bekräftelse.
+### Test
+
+**Modul E (`tests/test_modules/test_time_patterns.py`) — minst dessa assertions:**
+- Verifikation daterad 2024-03-30 (lördag) → Finding kategori `weekend_transaction`, risk MEDIUM
+- 10 verifikationer på de sista 5 dagarna av perioden, 2/dag resten av perioden → `closing_cluster`-fynd, risk HIGH
+- Gap på 20 dagar i juli → INGA fynd (juli undantaget)
+- Gap på 20 dagar i mars → `activity_gap`-fynd, risk MEDIUM
+- Transaktion 2024-12-28 som exakt reverserar transaktion 2024-12-20 (samma belopp med omvänt tecken, nära bokslut) → `reversal`-fynd, risk HIGH
+
+**Modul F (`tests/test_modules/test_salary_expenses.py`) — minst dessa assertions:**
+- 11 månatliga löneposter: 10 på 45 000 kr och 1 på 85 000 kr → `salary_deviation` HIGH (>2 stddev)
+- Samma lönbelopp 42 000 kr förekommer 2 gånger i januari → `duplicate_salary` HIGH
+- Post på konto 6550 med belopp 21 000 kr → `credit_card_expense` MEDIUM
+- Post på konto 6550 med belopp 19 000 kr → INGA fynd (under 20 000 kr-gräns)
+
+### Checkpoint 8
+Kör: `pytest tests/test_modules/test_time_patterns.py tests/test_modules/test_salary_expenses.py -v --tb=short`
+Alla tester ska vara gröna. Visa antal assertions per testfil. Vänta på bekräftelse.
 
 ---
 
@@ -647,15 +743,70 @@ Skapa `src/modules/business_relevance.py`:
 
 **Denna modul kräver tillgång till internet (allabolag.se) och Claude API.**
 
+**Arkitektur: `LookupProvider`-protokoll (mock-first)**
+
+```python
+from typing import Protocol, NamedTuple
+
+class CompanyInfo(NamedTuple):
+    org_nr: str | None
+    name: str
+    sni_code: str | None
+    description: str | None
+    status: str  # "active" / "inactive" / "unknown"
+
+class LookupProvider(Protocol):
+    def lookup(self, company_name: str) -> CompanyInfo: ...
+
+class MockLookupProvider:
+    """Används i tester och vid saknad nätverksanslutning."""
+    def __init__(self, data: dict[str, CompanyInfo]):
+        self.data = data
+    def lookup(self, company_name: str) -> CompanyInfo:
+        return self.data.get(
+            company_name,
+            CompanyInfo(None, company_name, None, None, "unknown")
+        )
+
+class AllabolagetProvider:
+    """Scraping av allabolag.se med JSON-caching."""
+    CACHE_FILE = "./cache/allabolag_cache.json"
+    REQUEST_DELAY_S: float = 1.0   # konfigurerbart via config
+    CACHE_MAX_AGE_DAYS: int = 30
+
+    def lookup(self, company_name: str) -> CompanyInfo:
+        # 1. Kolla cache (./cache/allabolag_cache.json)
+        # 2. Om cache-träff och ålder <= CACHE_MAX_AGE_DAYS: returnera cached
+        # 3. Vänta REQUEST_DELAY_S sekunder (rate limiting)
+        # 4. GET https://www.allabolag.se/what/{url-encodat namn}/1
+        # 5. Parsa <meta name="description"> och <title> ur HTML
+        # 6. Spara i cache med ISO-tidsstämpel
+        # 7. Vid ConnectionError/Timeout: logga varning, returnera status="unknown"
+```
+
+Cache-format (`./cache/allabolag_cache.json`):
+```json
+{
+  "Acme AB": {
+    "org_nr": "556677-8899",
+    "sni_code": "62010",
+    "description": "Dataprogrammering",
+    "status": "active",
+    "cached_at": "2024-03-15T10:30:00"
+  }
+}
+```
+
+`BusinessRelevanceModule` tar `lookup_provider: LookupProvider` som konstruktor-argument.
+Standard i produktion: försök skapa `AllabolagetProvider`, vid `ConnectionError` → fall tillbaka till `MockLookupProvider({})` med loggad varning.
+
 Analyslogik:
 1. Extrahera unika motpartsnamn från verifikationstexter och banktransaktionstexter
-2. Rensa och normalisera namn (ta bort "AB", "HB", trimma, etc.)
-3. Gör uppslag via web scraping eller API mot allabolag.se:
-   - Sök på företagsnamn
-   - Hämta: SNI-kod, verksamhetsbeskrivning, status (aktivt/avregistrerat)
-   - Cacha resultat lokalt för att undvika upprepade anrop
-4. Skicka transaktionstext + motpartens verksamhetsbeskrivning till Claude API och be om bedömning: "Är denna transaktion förenlig med en IT-verksamhet som säljer produkter och tjänster till företag?"
-5. Claude svarar med: ja/nej/osäkert + kort motivering
+2. Rensa och normalisera namn (ta bort "AB", "HB", trimma mellanslag etc.)
+3. Slå upp varje motpart via `lookup_provider.lookup()`
+4. Skicka transaktionstext + motpartens `description` till Claude API för bedömning:
+   "Är denna transaktion förenlig med en IT-verksamhet som säljer produkter och tjänster till företag?"
+5. Claude svarar med JSON: `{"relevant": true/false/null, "reasoning": "..."}`
 
 **Fynd:**
 
@@ -670,9 +821,10 @@ Analyslogik:
 **Fallback:** Om allabolag.se inte är nåbart, logga varning och fall tillbaka på enbart AI-bedömning av transaktionstexten.
 
 ### Test
-- Testa med mockad allabolag.se-data (3 företag: ett IT-företag, en blomsterhandel, ett okänt)
-- Testa att cacha fungerar (andra anropet ska inte göra HTTP-request)
-- Testa Claude API-anropet med mockad respons
+- Testa med `MockLookupProvider` (3 företag: ett IT-företag, en blomsterhandel, ett okänt) — ingen HTTP i testerna
+- Testa att blomsterhandel → `unrelated_business` MEDIUM, okänt → `unknown_counterparty` MEDIUM
+- Testa att cachen respekteras: skapa `AllabolagetProvider` med en förfylld cachefil, verifiera att `lookup()` inte gör HTTP-anrop för den posten
+- Testa Claude API-anropet med mockad respons (monkeypatch `anthropic.Anthropic`)
 
 ### Checkpoint 9
 Kör tester och visa resultat. Vänta på bekräftelse.
@@ -744,9 +896,9 @@ class OrchestrationEngine:
         self.findings: list[Finding] = []
         self.execution_log: list[dict] = []
     
-    def run_full_analysis(self, companies: list[Company], 
+    def run_full_analysis(self, companies: list[Company],
                           bank_transactions: dict[str, list[BankTransaction]]) -> AnalysisResult:
-        """Kör fullständig analys i 5 steg."""
+        """Kör fullständig analys i 7 steg (se orkestreringsflöde nedan)."""
     
     def enrich_findings_with_ai(self, findings: list[Finding], companies: list[Company]) -> list[Finding]:
         """Skicka varje fynd till Claude för resonemang och riskbedömning."""
@@ -834,6 +986,20 @@ Skapa även `README.md` med:
 - Konfiguration (förklara YAML-filerna)
 - Beskrivning av modulerna
 - Output-format
+
+### Fil-till-bolag-mappning
+
+`main.py` behöver associera varje CSV med rätt SIE4-fil/bolag. Konvention (i prioritetsordning):
+
+1. **Automatisk via org_nr**: parsern läser `#ORGNR` från SIE4-headern och slår upp mot bolag i `wooz_config.yaml`. CSV-filer matchas mot bolag om filnamnet innehåller org_nr (med eller utan bindestreck, t.ex. `5566778899` eller `556677-8899`).
+2. **Explicit mappning i config**: om automatisk matchning misslyckas, slå upp i config-nyckel `file_mappings`:
+```yaml
+file_mappings:
+  "556677-8899": "sophone_2025.csv"   # org_nr → CSV-filnamn
+```
+3. **Fallback**: om ingen matchning hittas loggas en varning och SIE4-filen analyseras utan bank-CSV (Modul A hoppas över för det bolaget).
+
+Lägg till optional nyckel `file_mappings: {}` i `config/default_config.yaml`.
 
 ### Test
 - Kör `python main.py --config config/default_config.yaml --sie-dir test_data/ --csv-dir test_data/ --output test_output/ --no-ai`
