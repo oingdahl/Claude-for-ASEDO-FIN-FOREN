@@ -30,6 +30,13 @@ _DEFAULT_OWNER_LOAN_ACCOUNTS = ["2393"]
 _DEFAULT_OWNER_LOAN_LARGE_KR = 50_000
 _DEFAULT_OLD_BALANCE_DAYS = 90
 
+# Standardintervall att kontrollera när inga konton är konfigurerade
+_FALLBACK_CLEARING_ACCOUNTS = (
+    [str(a) for a in range(1630, 1690)]
+    + ["2393"]
+    + [str(a) for a in range(2890, 2900)]
+)
+
 
 def _last_movement_date(company: Company, account_nr: str) -> date | None:
     """Returnerar senaste verifikationsdatum för ett konto, eller None."""
@@ -92,6 +99,8 @@ class ClearingAccountsModule(AnalysisModule):
     ) -> list[Finding]:
         ca_cfg = config.get("clearing_accounts", {})
         accounts_to_check = [str(a) for a in ca_cfg.get("accounts", [])]
+        if not accounts_to_check:
+            accounts_to_check = _FALLBACK_CLEARING_ACCOUNTS
         owner_loan_accounts = [
             str(a) for a in ca_cfg.get("owner_loan_accounts", _DEFAULT_OWNER_LOAN_ACCOUNTS)
         ]
@@ -131,7 +140,32 @@ class ClearingAccountsModule(AnalysisModule):
         else:
             return findings
 
-        for account_nr in accounts_to_check:
+        # Filtrera till konton som faktiskt förekommer i bolagets data
+        all_tx_accounts = {
+            t.account for v in company.vouchers for t in v.transactions
+        }
+        all_balance_accounts = set(company.closing_balances) | set(company.opening_balances)
+        active_accounts = [
+            a for a in accounts_to_check
+            if a in all_tx_accounts or a in all_balance_accounts
+        ]
+
+        if not active_accounts:
+            return [self._create_finding(
+                category="no_clearing_accounts",
+                risk_level="INFO",
+                summary=(
+                    f"{company.org_nr}: Inga clearing-konton hittades i data "
+                    f"(kontrollerade {len(accounts_to_check)} konton)"
+                ),
+                companies=[company.org_nr],
+                details={
+                    "org_nr": company.org_nr,
+                    "accounts_checked": len(accounts_to_check),
+                },
+            )]
+
+        for account_nr in active_accounts:
             # -------------------------------------------------------
             # Ägarlån (2393)
             # -------------------------------------------------------

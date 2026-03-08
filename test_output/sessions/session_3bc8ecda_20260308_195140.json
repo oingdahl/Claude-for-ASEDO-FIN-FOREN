@@ -1,0 +1,12 @@
+{
+  "session_id": "3bc8ecda",
+  "started_at": "2026-03-08T19:51:40.212330",
+  "config_path": "config/default_config.yaml",
+  "results_path": "test_output/results.json",
+  "context_path": "test_output/context.json",
+  "source_sie_dir": null,
+  "source_csv_dir": null,
+  "conversation_history": [],
+  "investigation_notes": [],
+  "rerun_log": []
+}

@@ -153,6 +153,9 @@ class BankMatchingModule(AnalysisModule):
 
             if not bank_txs:
                 logger.debug("Inga banktransaktioner för %s (%s)", company.name, org_nr)
+                findings.extend(
+                    self._handle_no_bank_data(company, org_nr, bank_acc_start, bank_acc_end)
+                )
                 continue
 
             findings.extend(
@@ -165,6 +168,49 @@ class BankMatchingModule(AnalysisModule):
         # Sortera: HIGH före MEDIUM
         order = {"CRITICAL": 0, "HIGH": 1, "MEDIUM": 2, "LOW": 3, "INFO": 4}
         findings.sort(key=lambda f: order.get(f.risk_level, 99))
+        return findings
+
+    # ------------------------------------------------------------------
+    # Intern hjälplogik: bolag utan bank-CSV
+    # ------------------------------------------------------------------
+
+    def _handle_no_bank_data(
+        self,
+        company: Company,
+        org_nr: str,
+        acc_start: int,
+        acc_end: int,
+    ) -> list[Finding]:
+        """Hanterar bolag utan bank-CSV: flaggar bokföringsposter på bankkonton."""
+        book_entries = [
+            (v, t)
+            for v in company.vouchers
+            for t in v.transactions
+            if _is_bank_account(t.account, acc_start, acc_end)
+        ]
+        if not book_entries:
+            return [self._create_finding(
+                category="no_data",
+                risk_level="INFO",
+                summary=(
+                    f"{company.name} ({org_nr}): Ingen bank-CSV tillgänglig och "
+                    f"inga bokföringsposter på bankkonton"
+                ),
+                companies=[org_nr],
+                details={"org_nr": org_nr, "reason": "no_bank_csv_and_no_book_entries"},
+            )]
+        findings = []
+        for v, t in book_entries:
+            findings.append(self._create_finding(
+                category="unmatched_book",
+                risk_level="HIGH",
+                summary=(
+                    f"Bokföringspost på bankkonto saknar bankmotsvarighet (ingen bank-CSV): "
+                    f"{v.date} {t.amount / 100:.2f} kr konto {t.account}"
+                ),
+                companies=[org_nr],
+                details={"book": _tx_key(org_nr, v, t), "reason": "no_bank_csv"},
+            ))
         return findings
 
     # ------------------------------------------------------------------

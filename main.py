@@ -185,6 +185,19 @@ def _match_csv_to_companies(
                     company.org_nr,
                 )
 
+    # Fallback: ett bolag + en omatchad CSV → automatch med INFO-logg
+    unmatched_companies = [c for c in companies if not result[c.org_nr]]
+    unclaimed_files = [f for f in csv_transactions if f not in claimed]
+    if len(unmatched_companies) == 1 and len(unclaimed_files) == 1:
+        company = unmatched_companies[0]
+        filename = unclaimed_files[0]
+        result[company.org_nr] = csv_transactions[filename]
+        claimed.add(filename)
+        logger.info(
+            "Automatch (ett bolag, en CSV): %s → %s",
+            filename, company.org_nr,
+        )
+
     # Logga CSV-filer som inte matchade något bolag
     for filename in csv_transactions:
         if filename not in claimed:
@@ -271,6 +284,33 @@ def _run_all_modules(
 
 
 # ---------------------------------------------------------------------------
+# Mappningssammanfattning
+# ---------------------------------------------------------------------------
+
+def _print_mapping_summary(
+    companies: list[Company],
+    csv_transactions: dict[str, list[BankTransaction]],
+    bank_tx_by_org: dict[str, list[BankTransaction]],
+) -> None:
+    """Skriver ut en tabell över hur CSV-filer matchades mot bolag."""
+    print("\nCSV-mappning:")
+    for company in companies:
+        txs = bank_tx_by_org.get(company.org_nr, [])
+        if txs:
+            # Hitta filnamnet via source_file på första transaktionen
+            source = txs[0].source_file if txs else "?"
+            print(f"  ✓ {company.name:<30} ({company.org_nr}) ← {Path(source).name} ({len(txs)} poster)")
+        else:
+            print(f"  ✗ {company.name:<30} ({company.org_nr}) — ingen bank-CSV")
+    unclaimed = [f for f in csv_transactions if not any(
+        txs and txs[0].source_file and Path(txs[0].source_file).name == f
+        for txs in bank_tx_by_org.values()
+    )]
+    for filename in unclaimed:
+        print(f"  ? {filename} — ej matchad mot något bolag")
+
+
+# ---------------------------------------------------------------------------
 # Terminal-sammanfattning
 # ---------------------------------------------------------------------------
 
@@ -313,6 +353,20 @@ def _print_terminal_summary(
 # ---------------------------------------------------------------------------
 # Uppföljningsläge — hjälpfunktioner
 # ---------------------------------------------------------------------------
+
+def _load_companies_from_context(context_path: str) -> list[Company]:
+    """Ladda minimala Company-objekt ur context.json (ingen transaktionsdata)."""
+    import json as _json
+    data = _json.loads(Path(context_path).read_text(encoding="utf-8"))
+    companies = []
+    for c in data.get("sphere_summary", {}).get("companies", []):
+        company = Company(
+            org_nr=c.get("org_nr", ""),
+            name=c.get("name", ""),
+            role=c.get("role", ""),
+        )
+        companies.append(company)
+    return companies
 
 def _load_findings_from_results(results_path: str) -> list:
     """Ladda fynd från results.json (returnerar Finding-liknande dicts)."""
@@ -444,7 +498,7 @@ def _run_followup_mode(args: object, config: dict) -> None:
         context_path = getattr(args, "context", None)
         sie_dir = args.sie_dir
         csv_dir = args.csv_dir
-        config_path = args.config
+        config_path = getattr(args, "config", None)
 
         if not results_path or not context_path:
             print("Fel: --results och --context krävs för uppföljningsläge (eller --session).")
@@ -458,10 +512,14 @@ def _run_followup_mode(args: object, config: dict) -> None:
             csv_dir=csv_dir,
         )
 
-    # Parsa bolag och bankdata
-    companies = _parse_sie_files(sie_dir)
-    csv_transactions = _import_csv_files(csv_dir, config)
-    bank_tx_by_org = _match_csv_to_companies(companies, csv_transactions, config)
+    # Parsa bolag och bankdata (eller ladda från context.json om sie_dir saknas)
+    if sie_dir and Path(sie_dir).exists():
+        companies = _parse_sie_files(sie_dir)
+        csv_transactions = _import_csv_files(csv_dir, config) if csv_dir else {}
+        bank_tx_by_org = _match_csv_to_companies(companies, csv_transactions, config)
+    else:
+        companies = _load_companies_from_context(context_path) if context_path else []
+        bank_tx_by_org = {}
 
     # Ladda fynd
     findings = _load_findings_from_results(results_path)
@@ -642,6 +700,17 @@ def main() -> None:
         metavar="SESSION_PATH",
         help="Exportera utredningsjournal från en sessionsfil",
     )
+    parser.add_argument(
+        "--file-mapping",
+        action="append",
+        metavar="FILNAMN=ORGNR",
+        dest="file_mappings",
+        default=[],
+        help=(
+            "Manuell mappning av CSV-fil till org_nr, t.ex. "
+            "'Sophone_2025.csv=555555-5555'. Kan anges flera gånger."
+        ),
+    )
     args = parser.parse_args()
 
     # Export-investigation-läge (behöver inte config/sie-dir/csv-dir från args)
@@ -650,16 +719,20 @@ def main() -> None:
         return
 
     # Validera obligatoriska argument för analys- och uppföljningsläge
-    if not args.config:
-        parser.error("--config krävs")
-    if not args.sie_dir and not args.session:
-        parser.error("--sie-dir krävs (eller --session för att återuppta session)")
-    if not args.csv_dir and not args.session:
-        parser.error("--csv-dir krävs (eller --session för att återuppta session)")
+    has_context_files = bool(getattr(args, "context", None)) and bool(getattr(args, "results", None))
+    if not args.config and not args.session:
+        parser.error("--config krävs (eller --session för att återuppta session)")
+    if not args.sie_dir and not args.session and not has_context_files:
+        parser.error("--sie-dir krävs (eller --session, eller --context + --results för followup)")
+    if not args.csv_dir and not args.session and not has_context_files:
+        parser.error("--csv-dir krävs (eller --session, eller --context + --results för followup)")
 
-    # 1. Ladda config
-    logger.info("Laddar konfiguration: %s", args.config)
-    config = _load_config(args.config)
+    # 1. Ladda config (villkorligt — kan saknas i ren followup-läge)
+    if args.config:
+        logger.info("Laddar konfiguration: %s", args.config)
+        config = _load_config(args.config)
+    else:
+        config = {}
 
     # Uppföljningsläge
     if args.followup or args.session or args.question:
@@ -677,8 +750,21 @@ def main() -> None:
     logger.info("Importerar bankutdrag från: %s", args.csv_dir)
     csv_transactions = _import_csv_files(args.csv_dir, config)
 
-    # 4. Matcha CSV till bolag
+    # 4. Matcha CSV till bolag (injicera ev. --file-mapping från CLI)
+    if getattr(args, "file_mappings", None):
+        cli_mappings: dict[str, str] = {}
+        for mapping_str in args.file_mappings:
+            if "=" in mapping_str:
+                filename, org_nr = mapping_str.split("=", 1)
+                cli_mappings[org_nr.strip()] = filename.strip()
+            else:
+                logger.warning("Ignorerar ogiltig --file-mapping: %s (förväntar filnamn=orgnr)", mapping_str)
+        if cli_mappings:
+            config = dict(config)
+            config["file_mappings"] = {**config.get("file_mappings", {}), **cli_mappings}
+
     bank_tx_by_org = _match_csv_to_companies(companies, csv_transactions, config)
+    _print_mapping_summary(companies, csv_transactions, bank_tx_by_org)
 
     # 5. Validering
     logger.info("Validerar data...")

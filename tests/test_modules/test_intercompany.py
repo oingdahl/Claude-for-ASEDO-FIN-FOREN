@@ -252,4 +252,7 @@ def test_inga_fynd_utan_ic_konton() -> None:
     module = IntercompanyModule()
     findings = module.analyze([company_a, company_b], {}, cfg)
 
-    assert findings == []
+    # Modulen returnerar en INFO-finding när inga IC-konton hittades
+    assert len(findings) == 1
+    assert findings[0].risk_level == "INFO"
+    assert findings[0].category == "no_ic_issues"

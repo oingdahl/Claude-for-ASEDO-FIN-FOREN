@@ -152,7 +152,20 @@ class AmountPatternsModule(AnalysisModule):
                 "%s: Hoppar över Benford-test (%d poster < %d)",
                 company.org_nr, len(digits), min_count,
             )
-            return []
+            return [self._create_finding(
+                category="benford_skipped",
+                risk_level="INFO",
+                summary=(
+                    f"{company.org_nr}: Benford-test ej utfört — "
+                    f"för få transaktioner ({len(digits)} < {min_count})"
+                ),
+                companies=[company.org_nr],
+                details={
+                    "org_nr": company.org_nr,
+                    "sample_size": len(digits),
+                    "required_min": min_count,
+                },
+            )]
 
         chi2, p = _benford_chi2(digits)
         logger.debug(

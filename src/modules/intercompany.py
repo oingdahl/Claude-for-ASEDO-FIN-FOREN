@@ -222,6 +222,7 @@ class IntercompanyModule(AnalysisModule):
         # 2. Automatisk sökning: IC-konton utan konfigurerat par
         # ---------------------------------------------------------------
         for company in companies:
+            # 2a. Sök i closing_balances
             for acc_nr, balance in company.closing_balances.items():
                 if (company.org_nr, acc_nr) in checked_accounts:
                     continue
@@ -245,6 +246,47 @@ class IntercompanyModule(AnalysisModule):
                         "balance_kr": float(balance),
                     },
                 ))
+
+            # 2b. Sök i transaktioner för konton som saknas i closing_balances
+            tx_ic_seen: set[str] = set()
+            for v in company.vouchers:
+                for t in v.transactions:
+                    acc_nr = t.account
+                    if (company.org_nr, acc_nr) in checked_accounts:
+                        continue
+                    if acc_nr in company.closing_balances:
+                        continue  # Redan hanterat i 2a
+                    if acc_nr in tx_ic_seen:
+                        continue
+                    is_rec = _in_range(acc_nr, rec_lo, rec_hi)
+                    is_pay = _in_range(acc_nr, pay_lo, pay_hi)
+                    if not (is_rec or is_pay):
+                        continue
+                    tx_ic_seen.add(acc_nr)
+                    # Beräkna nettosaldo från transaktioner
+                    tx_balance = Decimal(sum(
+                        tt.amount
+                        for vv in company.vouchers
+                        for tt in vv.transactions
+                        if tt.account == acc_nr
+                    )) / 100
+                    if abs(tx_balance) < Decimal("0.01"):
+                        continue
+                    findings.append(self._create_finding(
+                        category="ic_one_sided",
+                        risk_level="HIGH",
+                        summary=(
+                            f"{company.org_nr}: IC-konto {acc_nr} används i transaktioner "
+                            f"(nettosaldo {tx_balance:.2f} kr) utan konfigurerad motpart"
+                        ),
+                        companies=[company.org_nr],
+                        details={
+                            "org_nr": company.org_nr,
+                            "account": acc_nr,
+                            "balance_kr": float(tx_balance),
+                            "source": "transactions",
+                        },
+                    ))
 
         # ---------------------------------------------------------------
         # 3. Cirkelflöden — bygg graf och detektera cykler
@@ -315,6 +357,18 @@ class IntercompanyModule(AnalysisModule):
                             },
                         },
                     ))
+
+        if not findings:
+            findings.append(self._create_finding(
+                category="no_ic_issues",
+                risk_level="INFO",
+                summary="Inga koncerninterna obalanser identifierade",
+                companies=[c.org_nr for c in companies],
+                details={
+                    "companies_checked": len(companies),
+                    "pairs_checked": len(pairs),
+                },
+            ))
 
         logger.info("%d IC-fynd genererade", len(findings))
         return findings

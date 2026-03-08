@@ -54,6 +54,66 @@ _CORPORATE_INDICATORS = re.compile(
     re.IGNORECASE,
 )
 
+# Generiska bokföringsord som inte är motpartsnamn
+_GENERIC_TEXTS = frozenset({
+    "lön", "loner", "löner", "löneutbetalning", "salary", "wages",
+    "moms", "mervärdesskatt", "vat", "skatt", "skatter",
+    "hyra", "kontorshyra", "lokal", "lokalhyra",
+    "el", "el och värme", "el/värme", "värme", "vatten",
+    "telefon", "mobiltelefon", "internet", "bredband",
+    "försäkring", "försäkringar",
+    "avskrivning", "avskrivningar", "amortering",
+    "ränta", "räntor", "bankränta", "dröjsmålsränta",
+    "bankavgift", "bankavgifter", "kontoavgift",
+    "porto", "frakt", "fraktkostnad",
+    "inventarier", "dator", "datorer",
+    "representation", "personalrepresentation",
+    "bokföring", "revision", "revisionskostnad", "redovisning",
+    "swish", "bankgiro", "plusgiro", "autogiro",
+    "kreditkort", "visa", "mastercard", "kortköp",
+    "lönesammanställning", "löneberedning",
+    "deposition", "depositionsavgift",
+    "reklamation", "kreditnota", "kredit",
+    "övrigt", "diverse", "övrigt levrant", "blandade kostnader",
+    "ingående saldo", "utgående saldo", "ingående balans",
+})
+
+# Regex för BG/PG-nummer och referensnummer som inte är företagsnamn
+_REFERENCE_PATTERNS = re.compile(
+    r"^("
+    r"bg\s*[\d\-\s]+|"          # BG 1234-5678
+    r"pg\s*[\d\-\s]+|"          # PG 12345-6
+    r"\d{3,5}[-\s]?\d{4,6}|"    # 12345-6789 (BG/PG format)
+    r"#\d+|"                     # #12345 (referensnummer)
+    r"\d{5,}|"                   # Rent numerisk sträng (5+ siffror)
+    r"ocr\s*\d+|"               # OCR-nummer
+    r"faktura\s*\d+|"            # Faktura nr
+    r"fakt\s*\d+|"              # Förkortat faktura nr
+    r"ref\s*[:.]?\s*\d+"         # REF: 12345
+    r")",
+    re.IGNORECASE,
+)
+
+
+def _is_likely_company_name(text: str) -> bool:
+    """Returnerar True om texten troligtvis är ett motpartsnamn (inte generisk text)."""
+    if not text or len(text) < 3:
+        return False
+    # Generiska bokföringsord
+    if text.lower() in _GENERIC_TEXTS:
+        return False
+    # BG/PG-nummer och referensnummer
+    if _REFERENCE_PATTERNS.match(text.strip()):
+        return False
+    # Rent numerisk (eventuellt med bindestreck/mellanslag) — inte ett namn
+    stripped = text.replace("-", "").replace(" ", "")
+    if stripped.isdigit():
+        return False
+    # Mycket korta texter (1-2 ord, inga versaler) är troligen inte företagsnamn
+    if len(text) < 5 and not any(c.isupper() for c in text):
+        return False
+    return True
+
 
 # ---------------------------------------------------------------------------
 # Datatyper
@@ -252,18 +312,21 @@ def _extract_counterpart_names(
     company: Company,
     bank_txs: list[BankTransaction],
 ) -> list[str]:
-    """Extraherar unika motpartsnamn från verifikationstexter och banktransaktionstexter."""
+    """Extraherar troliga motpartsnamn från verifikationstexter och banktransaktionstexter.
+
+    Filtrerar bort generiska bokföringsord, BG/PG-nummer och referensnummer.
+    """
     names: set[str] = set()
     for v in company.vouchers:
         text = v.text.strip()
-        if text and len(text) > 2:
+        if _is_likely_company_name(text):
             names.add(text)
         for t in v.transactions:
-            if t.text and len(t.text) > 2:
+            if t.text and _is_likely_company_name(t.text.strip()):
                 names.add(t.text.strip())
     for tx in bank_txs:
         text = tx.text.strip()
-        if text and len(text) > 2:
+        if _is_likely_company_name(text):
             names.add(text)
     return list(names)
 
