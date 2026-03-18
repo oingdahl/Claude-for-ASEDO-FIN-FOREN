@@ -380,7 +380,7 @@ def parse_sie4(filepath: str) -> Company:
                     amount = _parse_amount(args[2])
                     trans_text: str | None = args[3] if len(args) > 3 else None
                     quantity: float | None = (
-                        float(args[4]) if len(args) > 4 else None
+                        float(args[4]) if len(args) > 4 and args[4] else None
                     )
                     current_voucher.transactions.append(
                         Transaction(
