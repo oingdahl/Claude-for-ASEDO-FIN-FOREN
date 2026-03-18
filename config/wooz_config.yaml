@@ -1,0 +1,30 @@
+sphere:
+  name: "Wooz-sfären"
+  business_description: "Försäljning av IT-produkter och IT-tjänster till företag"
+
+  companies:
+    - org_nr: "XXXXXX-XXXX"  # OBS: Ersätt med riktigt org_nr (format "NNNNNN-NNNN") innan produktion
+      name: "Wooz AB"
+      role: "holding"
+    - org_nr: "XXXXXX-XXXX"  # OBS: Ersätt med riktigt org_nr
+      name: "Asedo Sverige AB"
+      role: "dotterbolag"
+    - org_nr: "XXXXXX-XXXX"  # OBS: Ersätt med riktigt org_nr
+      name: "Asedo & Co AB"
+      role: "dotterbolag"
+    - org_nr: "XXXXXX-XXXX"  # OBS: Ersätt med riktigt org_nr
+      name: "Sophone AB"
+      role: "dotterbolag"
+    - org_nr: "XXXXXX-XXXX"  # OBS: Ersätt med riktigt org_nr
+      name: "Asedo AB"
+      role: "fusionerat"
+    - org_nr: "XXXXXX-XXXX"  # OBS: Ersätt med riktigt org_nr
+      name: "Asedo Tech AB"
+      role: "intressebolag"
+    - org_nr: "XXXXXX-XXXX"  # OBS: Ersätt med riktigt org_nr
+      name: "Asedo Connect AB"
+      role: "fusionerat"
+
+# Valfri explicit fil-mappning om automatisk org_nr-matchning mot filnamn inte fungerar:
+file_mappings: {}
+# Exempel: file_mappings: {"556677-8899": "sophone_2025.csv"}

@@ -1,0 +1,66 @@
+matching:
+  amount_tolerance_bank_kr: 50        # ±50 kr för bank vs bok
+  amount_tolerance_intercompany_kr: 500  # ±500 kr för koncernintern
+  date_tolerance_days: 3               # ±3 dagar
+
+bank_accounts: ["1910", "1920", "1930", "1940"]
+
+intercompany_accounts:
+  receivables: ["1660", "1661", "1662", "1663", "1664", "1665", "1666", "1667", "1668", "1669"]
+  payables: ["2460", "2461", "2462", "2463", "2464", "2465", "2466", "2467", "2468", "2469"]
+
+clearing_accounts: ["1630", "1631", "1632", "1633", "1634", "1635", "1680", "1681", "1685", "2393", "2890", "2891", "2892", "2893", "2894", "2895", "2896", "2897", "2898", "2899"]
+
+salary_accounts:
+  wages: ["7010", "7011", "7012", "7013", "7014", "7090"]
+  social: ["7200", "7210", "7220", "7230", "7240", "7250", "7260", "7270", "7280", "7290", "7300", "7310", "7320", "7330", "7340", "7350", "7360", "7370", "7380", "7390", "7399"]
+
+benford:
+  min_sample_size: 50
+  significance_level: 0.05
+
+amount_patterns:
+  repeated_amount_threshold: 5        # antal förekomster för att flagga upprepat belopp
+  round_amount_ratio: 0.25            # andel jämna belopp för att flagga
+  below_threshold_count: 3            # antal transaktioner strax under gräns för att flagga
+  below_threshold_values_kr: [10000, 20000, 25000, 50000, 100000]
+  below_threshold_margin_pct: 0.05    # "strax under" = inom 5% under tröskeln
+
+clearing:
+  old_balance_days: 90                # öppet saldo äldre än detta flaggas
+  owner_loan_account: "2393"
+  owner_loan_high_threshold_kr: 50000 # belopp > detta på 2393 → HIGH
+
+salary:
+  deviation_stddev: 2.0               # löner >N stddev flaggas
+  credit_card_high_threshold_kr: 20000
+  credit_card_accounts: ["6540", "6541", "6542", "6543", "6544", "6545", "6546", "6547", "6548", "6549", "6550", "6551", "6552", "6553", "6554", "6555", "6556", "6557", "6558", "6559", "6560", "6561", "6562", "6563", "6564", "6565", "6566", "6567", "6568", "6569", "6570"]
+
+time_patterns:
+  closing_cluster_days: 5             # sista N dagarna av perioden
+  closing_cluster_multiplier: 2.0     # >N x dagligt genomsnitt → flagga
+  activity_gap_days: 14               # gap längre än N dagar → flagga
+  activity_gap_exempt_months: [7]     # juli undantas
+
+allabolag:
+  request_delay_s: 1.0
+  cache_max_age_days: 30
+
+csv_formats:
+  seb:
+    encoding: "utf-8-sig"
+    delimiter: ";"
+    columns:
+      booking_date: "Bokförd"
+      value_date: "Valutadatum"
+      text: "Text"
+      transaction_type: "Typ"
+      deposits: "Insättningar"
+      withdrawals: "Uttag"
+      balance: "Bokfört saldo"
+    date_format: "%Y-%m-%d"
+    decimal_separator: ","
+    thousands_separator: " "
+
+# Valfri explicit fil-mappning (org_nr → CSV-filnamn)
+file_mappings: {}
