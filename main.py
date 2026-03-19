@@ -19,6 +19,9 @@ import argparse
 import logging
 import os
 import sys
+
+from dotenv import load_dotenv
+load_dotenv()
 from collections import Counter, defaultdict
 from pathlib import Path
 

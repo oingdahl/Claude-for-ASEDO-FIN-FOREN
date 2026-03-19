@@ -5,3 +5,4 @@ anthropic
 pyyaml
 chardet
 pytest
+python-dotenv
