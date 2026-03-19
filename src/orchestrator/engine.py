@@ -254,11 +254,17 @@ class OrchestrationEngine:
                 findings_json=findings_json,
             )
             resp = self._call_api(prompt)
-            if resp is None:
+            if not resp:
                 continue
 
+            # Strippa eventuella markdown-kodblock (```json ... ```)
+            cleaned = resp.strip()
+            if cleaned.startswith("```"):
+                cleaned = cleaned.split("\n", 1)[-1]
+                cleaned = cleaned.rsplit("```", 1)[0].strip()
+
             try:
-                data = json.loads(resp)
+                data = json.loads(cleaned)
                 if not isinstance(data, list):
                     continue
                 id_to_reasoning: dict[str, str] = {
